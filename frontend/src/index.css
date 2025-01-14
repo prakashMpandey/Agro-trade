@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+    margin: 0;
+    padding: 0;
+   box-sizing: border-box;
+}
+
+    .container{
+        max-width: 128rem;
+        margin: 0 auto;
+        padding: 9rem 6rem;
+      
+      }
+
+
+body{
+    font-family: 'roboto';
+}
