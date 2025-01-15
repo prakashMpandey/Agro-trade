@@ -9,11 +9,28 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { user, logout, isAuthenticated } = useAuthStore();
   const [isOpen, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  
 
   const toggleDropDown = () => {
     setOpen(!isOpen);
   };
 
+  const handleSearch= async(e)=>{
+
+    if(search.length===0  )
+    {
+      return;
+    }
+    console.log(e);
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (!search.trim()) return;
+      navigate(`/search?query=${encodeURIComponent(search)}`);
+      setSearch("");
+    }
+  }
   const handleLogOut = async (e) => {
     try {
       e.preventDefault();
@@ -41,6 +58,10 @@ const Navbar = () => {
               type="text"
               className="w-full text-md p-2 text-gray-700 rounded-lg placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 hover:scale-105 transition-transform duration-150"
               placeholder="Search..."
+              onChange={(e)=>{setSearch(e.target.value)}}
+              value={search}
+              onKeyDown={(e)=>{
+                handleSearch(e)}}
             />
             <Search className="absolute top-1/2 right-2 text-gray-500 transform -translate-y-1/2" />
           </div>

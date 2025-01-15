@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createAuction,getAllPlacedBids, getAllActiveAuctions,bidPlacer, deleteAuction, notifyHighestBid ,getAuction, myAuctionHistory, getDashboardStats, myBids} from "../controllers/auction.controller.js";
+import { createAuction,getAllPlacedBids,searchAuctions, getAllActiveAuctions,bidPlacer, deleteAuction, notifyHighestBid ,getAuction, myAuctionHistory, getDashboardStats, myBids} from "../controllers/auction.controller.js";
 import verifyToken from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware,.js";
 const router=Router();
@@ -13,6 +13,7 @@ router.get("/getAuction/:auctionId",verifyToken,getAuction)
 router.get("/getAllPlacedBids/:auctionId",verifyToken,getAllPlacedBids)
 router.get("/myAuctions",verifyToken,myAuctionHistory)
 router.get("/myBids",verifyToken,myBids)
+router.get("/search",verifyToken,searchAuctions)
 router.get('/dashboard-stats', verifyToken, getDashboardStats);
 
 export default router;

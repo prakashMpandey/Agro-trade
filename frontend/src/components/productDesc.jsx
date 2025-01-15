@@ -1,16 +1,61 @@
-import React from 'react';
 import { MapPin, Scale, IndianRupee, Calendar, Timer, User } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useAuthStore } from '../../store/authStore';
+import { Divide } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { CONSTRAINTS } from 'cron/dist/constants';
 
-const ProductDesc = ({ auction }) => {
-  return (
-    <div className="max-w-6xl mx-auto p-4">
+
+const ProductDesc = () => {
+
+  const [auctionData,setAuctionData]=useState();
+ 
+
+  const {Auction_URL}=useAuthStore()
+
+  const {auctionId}=useParams()
+
+  const navigate=useNavigate();
+  useEffect(()=>{
+   
+    const fetchAuctionData = async () => {
+      const response = await fetch(`${Auction_URL}/getAuction/${auctionId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+  
+      if (response.ok && response.status === 200) {
+        const receivedData = await response.json();
+        setAuctionData(receivedData.data);
+      }
+    }
+
+    fetchAuctionData()
+  },[])
+
+
+  if(!auctionData)
+  {
+    return(
+      <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+          </div>
+    )
+  }
+
+return (
+      <div className="max-w-6xl mx-auto p-4">
       <div className="bg-white rounded-lg shadow-sm">
         {/* Product Header */}
         <div className="p-6 border-b">
-          <h1 className="text-2xl font-bold text-gray-900">{auction?.productName}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{auctionData?.product.p_name}</h1>
           <div className="flex items-center gap-2 mt-2 text-gray-600">
             <MapPin className="w-4 h-4" />
-            <span>{auction?.location}</span>
+            {/* <span>{auction?.location}</span> */}
           </div>
         </div>
 
@@ -19,8 +64,8 @@ const ProductDesc = ({ auction }) => {
           {/* Left: Image */}
           <div>
             <img
-              src={auction?.images?.[0] || '/default-product.jpg'}
-              alt={auction?.productName}
+              src={auctionData?.product.p_image || "https://static1.cbrimages.com/wordpress/wp-content/uploads/2019/10/Featured-Image-14.jpg"}
+              alt={auctionData?.product.p_name}
               className="w-full h-[400px] object-cover rounded-lg"
             />
           </div>
@@ -35,7 +80,7 @@ const ProductDesc = ({ auction }) => {
                   <div className="flex items-center gap-1">
                     <IndianRupee className="w-5 h-5" />
                     <span className="text-2xl font-bold text-gray-900">
-                      {auction?.currentBid}/quintal
+                      {auctionData?.highestBid}/quintal
                     </span>
                   </div>
                 </div>
@@ -52,14 +97,14 @@ const ProductDesc = ({ auction }) => {
                 <Scale className="w-5 h-5 text-gray-600 mb-2" />
                 <p className="text-gray-600">Quantity</p>
                 <p className="text-lg font-semibold text-gray-900">
-                  {auction?.quantity} quintals
+                  {auctionData?.product.p_qty}
                 </p>
               </div>
               <div className="border rounded-lg p-4">
                 <Calendar className="w-5 h-5 text-gray-600 mb-2" />
                 <p className="text-gray-600">Harvest Date</p>
                 <p className="text-lg font-semibold text-gray-900">
-                  {auction?.harvestDate}
+                  {new Date(auctionData?.product.harvestDate).toLocaleDateString()}
                 </p>
               </div>
             </div>
@@ -70,11 +115,50 @@ const ProductDesc = ({ auction }) => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-gray-600">Grade</p>
-                  <p className="text-lg font-semibold text-gray-900">{auction?.quality}</p>
+                  <p className="text-lg font-semibold text-gray-900">{auctionData?.product.quality}</p>
                 </div>
                 <div>
                   <p className="text-gray-600">Moisture</p>
-                  <p className="text-lg font-semibold text-gray-900">{auction?.moisture}%</p>
+                  <p className="text-lg font-semibold text-gray-900">{auctionData?.product.moisture}%</p>
+                </div>
+              </div>
+            </div>
+
+            {/* {description} */}
+          
+
+            <div className="border rounded-lg p-4">
+              <h3 className="font-semibold text-gray-900 mb-3"></h3>
+              <div className="grid grid-cols-2 grid-rows-2 gap-4">
+                <div>
+                  <p className="text-gray-600">color</p>
+                  <p className="text-lg font-semibold text-gray-900">{auctionData?.product.color}</p>
+                </div>
+                <div>
+                  <p className="text-gray-600">texture</p>
+                  <p className="text-lg font-semibold text-gray-900">{auctionData?.product.texture}</p>
+                </div>
+                <div>
+                  <p className="text-gray-600">Origin</p>
+                  <p className="text-lg font-semibold text-gray-900">{auctionData?.product.origin}</p>
+                </div>
+                { auctionData.product.certification && <div>
+                  <p className="text-gray-600">certification</p>
+                  <p className="text-lg font-semibold text-gray-900">{auctionData?.product.certification}</p>
+                </div> }
+              </div>
+            </div>
+
+            <div className="border rounded-lg p-4">
+              <h3 className="font-semibold text-gray-900 mb-3">Packaging Details</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-gray-600">Storage</p>
+                  <p className="text-lg font-semibold text-gray-900">{auctionData?.product.storage}</p>
+                </div>
+                <div>
+                  <p className="text-gray-600 capitalize">packaging Type</p>
+                  <p className="text-lg font-semibold text-gray-900">{auctionData?.product.packaging}</p>
                 </div>
               </div>
             </div>
@@ -85,13 +169,14 @@ const ProductDesc = ({ auction }) => {
                 <User className="w-6 h-6 text-gray-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-900">{auction?.sellerName}</p>
-                <p className="text-gray-600">{auction?.sellerLocation}</p>
+                <p className="font-semibold text-gray-900">{"Seller"}</p>
+                <p className="font-medium text-gray-900">{auctionData?.farmer.fullname}</p>
+                <p className="text-gray-600">{auctionData?.farmer.email}</p>
               </div>
             </div>
 
             {/* Action Button */}
-            <button className="w-full bg-gradient-to-r from-teal-500 to-blue-500 text-white py-3 rounded-lg font-medium hover:from-teal-600 hover:to-blue-600 transition-colors duration-200">
+            <button onClick={()=>{navigate(`/auction/${auctionId}`)}} className="w-full bg-gradient-to-r from-teal-500 to-blue-500 text-white py-3 rounded-lg font-medium hover:from-teal-600 hover:to-blue-600 transition-colors duration-200">
               Place Bid
             </button>
           </div>
@@ -100,11 +185,13 @@ const ProductDesc = ({ auction }) => {
         {/* Description Section */}
         <div className="border-t p-6">
           <h3 className="font-semibold text-gray-900 mb-3">Product Description</h3>
-          <p className="text-gray-600">{auction?.description}</p>
+          <p className="text-gray-600">{auctionData?.product.p_desc}</p>
         </div>
       </div>
     </div>
   );
+
+
 };
 
 export default ProductDesc;

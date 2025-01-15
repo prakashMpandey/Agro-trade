@@ -28,6 +28,8 @@ import ProductDesc from './components/productDesc';
 import CreateInfo from "./pages/AdminPages/createInfo.jsx"
 import ParticipatedAuctions from './pages/ParticipatedAuctions'
 import Footer from "./pages/footer"
+import SearchPage from './pages/SearchPage'
+
 const ProtectedRoutes = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
 
@@ -111,6 +113,7 @@ function App() {
     <Route path='/verify-email' element={<VerificationEmailPage/>}/>
     <Route path='/forgotPassword' element={<RedirectAuthenticatedUser><ForgotPassword/></RedirectAuthenticatedUser>}/>
     <Route path='/reset-password/:token' element={<RedirectAuthenticatedUser><ResetPassword/></RedirectAuthenticatedUser>}/>
+    <Route path="/search" element={<SearchPage />} />
     </Routes>
 
     <Footer/>

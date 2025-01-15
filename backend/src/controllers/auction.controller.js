@@ -510,3 +510,34 @@ export const getDashboardStats = async (req, res) => {
   }
 };
 
+
+export const searchAuctions = async (req, res) => {
+
+  const {query}=req.query
+
+  if(!query)
+  {
+    return res.status(400).json(new ApiError(400, "no query found"));
+  }
+
+  const auctions=await ( Auction.find({endTime:{$gt:Date.now()}})).populate({
+
+    path:"product",
+    match:{
+      $or:[{p_name:{$regex:query,$options:"i"}},{p_desc:{$regex:query,$options:"i"}}]
+    }
+  }).populate("farmer","username")
+  if(!auctions)
+  {
+    return res.status(404).json(new ApiError(404, "no auctions found"));
+  }
+
+  const filteredAuctions = auctions.filter(auction => auction.product !== null);
+
+  if (!filteredAuctions.length) {
+    return res.status(404).json(new ApiError(404, "no auctions found"));
+  }
+
+
+  return res.status(200).json(new ApiResponse(200, filteredAuctions, "auctions fetched successfully"));
+}
