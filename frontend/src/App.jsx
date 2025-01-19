@@ -29,6 +29,11 @@ import CreateInfo from "./pages/AdminPages/createInfo.jsx"
 import ParticipatedAuctions from './pages/ParticipatedAuctions'
 import Footer from "./pages/footer"
 import SearchPage from './pages/SearchPage'
+import AdminPage from './pages/AdminPage'
+import Users from './pages/AdminPages/users'
+import Auctions from './pages/AdminPages/Auctions'
+import Information from './pages/AdminPages/information'
+
 
 const ProtectedRoutes = ({ children }) => {
   const { isAuthenticated, user } = useAuthStore();
@@ -61,7 +66,7 @@ const RedirectAuthenticatedUser=({children})=>{
 function App() {
 
 
- const{checkAuth,isAuthenticated,isCheckingAuth}= useAuthStore()
+ const{checkAuth,isAuthenticated,isCheckingAuth,user}= useAuthStore()
 
  useEffect(() => {
 
@@ -79,7 +84,9 @@ function App() {
   return (
     <div className=''>
 
-<Navbar/>
+
+  <Navbar/>
+
     <Routes>
 
     <Route path='/signup' element={<RedirectAuthenticatedUser ><SignupPage/></RedirectAuthenticatedUser>}/>
@@ -102,7 +109,6 @@ function App() {
     
     
     <Route path='/contact-us' element={<ContactUs/>}/>
-    <Route path='/admin/create-info' element={<CreateInfo/>}/>
     <Route path='/about us' element={<AboutUs/>}/>
     <Route path='/' element={<LandingPage/>}/>
 
@@ -114,6 +120,22 @@ function App() {
     <Route path='/forgotPassword' element={<RedirectAuthenticatedUser><ForgotPassword/></RedirectAuthenticatedUser>}/>
     <Route path='/reset-password/:token' element={<RedirectAuthenticatedUser><ResetPassword/></RedirectAuthenticatedUser>}/>
     <Route path="/search" element={<SearchPage />} />
+    
+
+    {/* admin routes */}
+    <Route
+      path="/admin"
+      element={
+      
+          <AdminPage />
+
+      }
+    />
+        <Route path='/admin/create-info' element={<CreateInfo/>}/>
+        <Route path='/admin/users' element={<Users/>}/>
+        <Route path='/admin/auctions' element={<Auctions/>}/>
+        <Route path='/admin/information' element={<Information/>}/>
+    
     </Routes>
 
     <Footer/>

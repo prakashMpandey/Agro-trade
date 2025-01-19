@@ -15,6 +15,7 @@ export const useAuthStore = create((set) => ({
   isLoading: false,
   isCheckingAuth: false,
    Auction_URL :"http://localhost:4000/api/v1/auction",
+   Admin_URL:"http://localhost:4000/api/v1/admin",
 
 
   checkAuth: async () => {

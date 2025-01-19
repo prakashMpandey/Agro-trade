@@ -186,6 +186,7 @@ const MyListedAuctions = () => {
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
                     {auction.product.p_name}
                   </h3>
+                 
                   
                   <div className="space-y-3">
                     <p className="text-sm text-gray-600 line-clamp-2">

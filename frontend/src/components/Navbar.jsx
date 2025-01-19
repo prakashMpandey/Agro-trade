@@ -48,6 +48,13 @@ const Navbar = () => {
   };
 
   if (isAuthenticated) {
+    if (user.role === "admin") {
+      return (
+       ""
+      );
+    }
+    
+    // Regular user navbar
     return (
       <nav className="bg-gradient-to-r from-green-400 via-teal-500 to-blue-600 h-16 w-full px-4 md:px-6 flex items-center text-white shadow-lg">
         {/* Left Section */}

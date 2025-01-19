@@ -27,7 +27,8 @@ const CreateAuction = () => {
       texture: "",
       color: "",
       packaging: "",
-      expectedDelivery: ""
+      expectedDelivery: "",
+      category: "other"
     
     })
     
@@ -68,7 +69,7 @@ const CreateAuction = () => {
       formData.append("deliveryTime", productData.expectedDelivery);
       formData.append("color", productData.color);
     formData.append("variety",productData.variety);
-      
+    formData.append("category",productData.category);
    
       
 
@@ -136,7 +137,7 @@ const CreateAuction = () => {
               <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">Basic Details</h2>
                 <div className="grid grid-cols-1 gap-6">
-                  <div>
+                  <div className='flex flex-col gap-2'>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Product Name
                     </label>
@@ -148,6 +149,20 @@ const CreateAuction = () => {
                       placeholder="Enter product name"
                       className="w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-green-500 focus:ring-green-500"
                     />
+                    <label className="block text-gray-600 font-medium mb-1">Category</label>
+                    <select
+                      name="category"
+                      value={productData.category}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                    
+                      <option value="vegetable">Vegetable</option>
+                      <option value="fruit">Fruit</option>
+                      <option value="grain">Grains</option>
+                      <option value="spices">Spices</option>
+                      <option value="other">Other</option>
+                    </select>
                   </div>
                 </div>
               </div>
