@@ -23,7 +23,7 @@ export const useAuthStore = create((set) => ({
     set({ isCheckingAuth: true, error: null });
     try {
       const response = await axios.get(`${API_URL}/isLoggedIn`);
-      console.log(import.meta.env);
+      
       set({ user: response.data.data, isCheckingAuth: false, isAuthenticated: true });
     } catch (error) {
       set({
