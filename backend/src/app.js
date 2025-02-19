@@ -1,15 +1,18 @@
 import express, { json } from "express";
 import cors from "cors"
+import dotenv from "dotenv"
 import http from "http";
 import cookieParser from "cookie-parser";
 import {Server} from "socket.io"
 import { auctionController } from "./controllers/auction.controller.js";
 import { job } from "./utilities/automaticDeletor.utils.js";
 const app=express();
+
+dotenv.config()
 export const httpServer=http.createServer(app)
 const io=new Server(httpServer,{
     cors: {
-      origin: "http://localhost:5173",
+      origin: process.env.FRONTEND_URL,
       methods: ["GET", "POST","PUT","DELETE"],
       credentials:true
     }});
@@ -24,7 +27,7 @@ app.use(cookieParser());
 
 app.use(cors({
     credentials:true,
-    origin:"http://localhost:5173",
+    origin:"process.env.FRONTEND_URL",
 
 }));
 
