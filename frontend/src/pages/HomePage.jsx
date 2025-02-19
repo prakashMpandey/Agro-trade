@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useAuthStore } from '../../store/authStore';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { toast } from "react-hot-toast";
-
-
-import Card from '../components/card';
-
-import LoadingPage from './loadingPage';
-import InfoCard from '../components/InfoCard';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../store/authStore';
+import Card from "../components/Card.jsx";
 import ContactDetailsModal from '../components/ContactDetailsModal';
+import InfoCard from '../components/InfoCard';
+import LoadingPage from './LoadingPage.jsx';
 
 const controller = new AbortController();
 const signal = controller.signal;

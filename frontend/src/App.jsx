@@ -1,7 +1,7 @@
 import { Children, useState } from 'react'
 import {Routes,Route} from "react-router-dom"
 import SignInPage from './pages/SignInPage.jsx'
-import VerificationEmailPage from './pages/verificationEmailPage.jsx'
+import VerificationEmailPage from './pages/VerificationEmailPage.jsx'
 import './App.css'
 import ForgotPassword from './pages/forgotPassword.jsx'
 import SignupPage from './pages/SignupPage.jsx'
@@ -10,10 +10,10 @@ import {Toaster} from "react-hot-toast"
 import HomePage from './pages/HomePage'
 import { useAuthStore } from '../store/authStore.js'
 import { Navigate } from 'react-router-dom'
-import ResetPassword from './pages/resetPassword.jsx'
-import LoadingPage from './pages/loadingPage.jsx'
+import ResetPassword from './pages/ResetPassword.jsx'
+import LoadingPage from './pages/LoadingPage.jsx'
 import Navbar from './components/Navbar.jsx'
-import CreateAuction from './pages/createAuction.jsx'
+import CreateAuction from './pages/CreateAuction.jsx'
 import AuctionPage from './pages/AuctionPage.jsx'
 import {ToastContainer} from "react-toastify"
 import EditProfile from './pages/EditProfile.jsx'
@@ -25,14 +25,14 @@ import ContactUs from './pages/ContactUs.jsx'
 import AboutUs from './pages/AboutUs.jsx'
 import LandingPage from './pages/LandingPage'
 import ProductDesc from './components/productDesc.jsx';
-import CreateInfo from "./pages/AdminPages/createInfo.jsx"
+import CreateInfo from "./pages/AdminPages/CreateInfo.jsx"
 import ParticipatedAuctions from './pages/ParticipatedAuctions'
-import Footer from "./pages/footer"
+import Footer from "./pages/Footer.jsx"
 import SearchPage from './pages/SearchPage'
 import AdminPage from './pages/AdminPage'
 import Users from './pages/AdminPages/Users.jsx'
 import Auctions from './pages/AdminPages/Auctions'
-import Information from './pages/AdminPages/information.jsx'
+import Information from './pages/AdminPages/Information.jsx'
 import NotFoundPage from './pages/NotFoundPage'
 import UnauthorizedPage from './pages/UnauthorizedPage'
 import ProfilePage from './pages/ProfilePage';

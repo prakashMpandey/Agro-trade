@@ -7,7 +7,7 @@ import { useAuthStore } from "../../store/authStore";
 import { Loader } from "lucide-react";
 import { toast } from "react-toastify";
 import socket from "../../utils/socket.js"
-import LoadingPage from "./loadingPage.jsx";
+import LoadingPage from "./LoadingPage.jsx";
 
 const AuctionPage = () => {
   const [bids, setBids] = useState([]);
