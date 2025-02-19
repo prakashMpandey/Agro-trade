@@ -2,8 +2,11 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import {io} from "socket.io-client"
+import dotenv from "dotenv"
 import socket from ".././utils/socket.js"
-const API_URL = "http://localhost:4000/api/v1/user";
+
+dotenv.config()
+const API_URL =process.env.API_URL;
 
 axios.defaults.withCredentials = true;
 
@@ -14,9 +17,9 @@ export const useAuthStore = create((set) => ({
   error: null,
   isLoading: false,
   isCheckingAuth: false,
-   Auction_URL :"http://localhost:4000/api/v1/auction",
-   Admin_URL:"http://localhost:4000/api/v1/admin",
-    Info_URL:"http://localhost:4000/api/v1/info",
+   Auction_URL :process.env.Auction_URL,
+   Admin_URL:process.env.Admin_URL,
+    Info_URL:process.env.Info_URL,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
