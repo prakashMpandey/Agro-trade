@@ -3,7 +3,7 @@ import {Routes,Route} from "react-router-dom"
 import SignInPage from './pages/SignInPage.jsx'
 import VerificationEmailPage from './pages/VerificationEmailPage.jsx'
 import './App.css'
-import ForgotPassword from './pages/forgotPassword.jsx'
+import ForgotPassword from './pages/ForgotPassword.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import { useEffect } from 'react'
 import {Toaster} from "react-hot-toast"
