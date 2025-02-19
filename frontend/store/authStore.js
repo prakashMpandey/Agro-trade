@@ -1,12 +1,10 @@
 import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import {io} from "socket.io-client"
-import dotenv from "dotenv"
-import socket from ".././utils/socket.js"
+import { io } from "socket.io-client";
+import socket from "../utils/socket.js";
 
-dotenv.config()
-const API_URL =process.env.API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 axios.defaults.withCredentials = true;
 
@@ -17,19 +15,16 @@ export const useAuthStore = create((set) => ({
   error: null,
   isLoading: false,
   isCheckingAuth: false,
-   Auction_URL :process.env.Auction_URL,
-   Admin_URL:process.env.Admin_URL,
-    Info_URL:process.env.Info_URL,
+  Auction_URL: import.meta.env.VITE_AUCTION_URL,
+  Admin_URL: import.meta.env.VITE_ADMIN_URL,
+  Info_URL: import.meta.env.VITE_INFO_URL,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
-
-
     try {
-
-      const response=await axios.get(`${API_URL}/isLoggedIn`);
-
-      set({user:response.data.data,isCheckingAuth:false,isAuthenticated:true})
+      const response = await axios.get(`${API_URL}/isLoggedIn`);
+      console.log(import.meta.env);
+      set({ user: response.data.data, isCheckingAuth: false, isAuthenticated: true });
     } catch (error) {
       set({
         error: error.message || "Failed to check authentication",
@@ -39,11 +34,8 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-
- 
   signup: async (data) => {
     set({ isLoading: true, error: null });
-
     try {
       const { email, username, password, role } = data;
       const response = await axios.post(`${API_URL}/register`, {
@@ -53,39 +45,28 @@ export const useAuthStore = create((set) => ({
         role,
       });
 
-      console.log(response)
-
-      if(response.status===200)
-      {
+      console.log(response);
+      if (response.status === 200) {
         set({
-          success:true,
+          success: true,
           user: response.data.data.user,
           isAuthenticated: true,
           isLoading: false,
         });
-  
-        
-        return {success:true,}
-
+        return { success: true };
       }
-
-
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error signing up",
         isLoading: false,
       });
-      return {success:false,message:error.response?.data?.message}
-     
+      return { success: false, message: error.response?.data?.message };
     }
   },
 
- 
   login: async (credentials) => {
-    set({ isLoading: true, error: null,  });
-
+    set({ isLoading: true, error: null });
     const { input, password } = credentials;
-
     try {
       const response = await fetch(`${API_URL}/login`, {
         method: "POST",
@@ -95,9 +76,7 @@ export const useAuthStore = create((set) => ({
         credentials: "include",
         body: JSON.stringify({ input, password }),
       });
-
       const receivedData = await response.json();
-
       if (response.ok && response.status === 200) {
         set({
           user: receivedData.data,
@@ -106,15 +85,9 @@ export const useAuthStore = create((set) => ({
         });
         toast.success("Login successful!");
         return true;
-
-        
       } else {
         toast.error(receivedData.message || "Login failed");
-        set({
-          isLoading: false,
-          isAuthenticated: false,
-          user: null,
-        });
+        set({ isLoading: false, isAuthenticated: false, user: null });
         return false;
       }
     } catch (error) {
@@ -130,35 +103,26 @@ export const useAuthStore = create((set) => ({
 
   verify_email: async (code) => {
     set({ isLoading: true, error: null, isAuthenticated: false });
-
     try {
       const response = await axios.post(`${API_URL}/verify-email`, { code });
-
       if (response.status !== 200) {
         throw new Error("Error verifying email");
       }
-
       set({
         user: response.data.user,
         isLoading: false,
         isAuthenticated: true,
         error: null,
       });
-
-      return ({success:true})
-      
+      return { success: true };
     } catch (error) {
       set({
-        error:
-          error.response?.data?.message || error.message || "Error verifying email",
+        error: error.response?.data?.message || error.message || "Error verifying email",
         isLoading: false,
       });
-
-      return ({success:false,message:error.response?.data?.message})
-   
+      return { success: false, message: error.response?.data?.message };
     }
   },
-
 
   setLoadingState: () => {
     set((state) => ({ isLoading: !state.isLoading }));
@@ -174,14 +138,12 @@ export const useAuthStore = create((set) => ({
         },
         credentials: "include",
       });
-
       if (response.ok && response.status === 200) {
         set({
           isAuthenticated: false,
           user: null,
           isLoading: false,
         });
-
         socket.disconnect();
         toast.success("User logged out successfully!");
         return true;
@@ -195,7 +157,5 @@ export const useAuthStore = create((set) => ({
       toast.error(error.message || "Error logging out");
       return false;
     }
-
-
   },
 }));
