@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
-import AdminStats from '../components/adminStats.jsx';
+import AdminStats from '../components/AdminStats.jsx';
 import AdminBottomCard from '../components/AdminBottomCard.jsx';
 import LoadingSkeleton from '../components/LoadingSkeleton.jsx';
 import axios from 'axios';
