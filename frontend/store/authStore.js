@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { io } from "socket.io-client";
 import socket from "../utils/socket.js";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = `${import.meta.env.VITE_API_URL}api/v1/user`;
 
 axios.defaults.withCredentials = true;
 
@@ -15,9 +15,9 @@ export const useAuthStore = create((set) => ({
   error: null,
   isLoading: false,
   isCheckingAuth: false,
-  Auction_URL: import.meta.env.VITE_AUCTION_URL,
-  Admin_URL: import.meta.env.VITE_ADMIN_URL,
-  Info_URL: import.meta.env.VITE_INFO_URL,
+  Auction_URL: `${import.meta.env.VITE_AUCTION_URL}/api/v1/auction`,
+  Admin_URL: `${import.meta.env.VITE_ADMIN_URL}/api/v1/admin`,
+  Info_URL: `${import.meta.env.VITE_INFO_URL}/api/v1/info`,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
