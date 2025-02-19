@@ -6,6 +6,13 @@ const productSchema=new Schema({
         trim:true,
         lowercase:true
     },
+    category:{
+        type:String,
+        required:true,
+        trim:true,
+        lowercase:true,
+        enum:["grain","vegetable","fruit","herb","spice","root","flower","seed","leaf","other"]
+    },
     p_desc:{
         type:String,
         lowercase:true,
@@ -107,6 +114,9 @@ const auctionSchema=new Schema({
         ref:"Product",
         required:true,
         index:true
+    },
+    category:{
+        type:String
     }
     ,basePrice:{
         type:Number,

@@ -2,127 +2,159 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
-import {toast} from 'react-hot-toast';
-import { Loader } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { Loader, Eye, EyeOff, LogIn } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-const SignInPage = () => {
 
-  const navigate=useNavigate()
+const SignInPage = () => {
+  const navigate = useNavigate();
   const [inputData, setInputData] = useState({
     input: '',
     password: '',
   });
 
-  const {login,isLoading,error}=useAuthStore()
-
+  const { login, isLoading, user } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setInputData({ ...inputData, [name]: value });
+    const { name, value } = e.target;
+    setInputData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit =async (e) => {
-   
-    e.preventDefault()
-
-    console.log(inputData)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const loginUser=await login(inputData)
-
-      if(!loginUser)
-      {
-        return;
+      const loginUser = await login(inputData);
+      if (!loginUser) return;
+      navigate(user.role === 'admin' ? '/admin' : '/home');
+    } catch (error) {
+      if (!error.message) {
+        toast.error("Cannot log in now");
       }
-
-      navigate('/home');
-      return;
-      
-    } 
-    
-    catch (error) { 
-     toast.error("cannot log in now")
     }
-  
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-400 via-teal-500 to-blue-600 bg-opacity-90"
-    >
-      <div className="w-full max-w-sm p-8 bg-white shadow-2xl rounded-lg">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Welcome</h2>
-
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-              Username / Email
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="input"
-              required={true}
-              value={inputData.input}
-              onChange={handleChange}
-              placeholder="Enter your email or username"
-              className="w-full px-4 py-3 border rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                name="password"
-                required={true}
-                value={inputData.password}
-                onChange={handleChange}
-                placeholder="Enter your password"
-                className="w-full px-4 py-3 border rounded-lg shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-              />
-              <span
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-4 flex items-center text-blue-500 cursor-pointer font-semibold hover:text-blue-700 transition-all duration-300 ease-in-out"
-              >
-                {showPassword ? 'Hide' : 'Show'}
-              </span>
-            </div>
-            <p className="mt-2 text-right text-sm">
-              <Link
-                to="/forgotPassword"
-                className="text-blue-500 hover:text-blue-700 hover:underline"
-              >
-                Forgot your password?
-              </Link>
-            </p>
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-emerald-700 hover:scale-105 transition-transform duration-300"
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50">
+      <div className="absolute inset-0 bg-grid-slate-900/[0.04] -z-1"></div>
+      <div className=" mx-auto  sm:px-6 md:px-8 px-4 h-screen flex items-center justify-center">
+        <div className="max-w-md sm:max-w-2xl lg:max-w-xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-xl border border-gray-200 overflow-hidden"
           >
-           {isLoading? <Loader className="animate-spin mx-auto " size={24} />: "Sign in"} 
-          </button>
-        </form>
+            {/* Header */}
+            <div className="px-8 pt-8 pb-6">
+              <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
+                Welcome back
+              </h2>
+              <p className="text-center text-gray-600">
+                Enter your credentials to access your account
+              </p>
+            </div>
 
-        <p className="mt-6 text-center text-gray-600">
-          Don’t have an account?{' '}
-          <Link to="/signup" className="text-blue-500 hover:text-blue-700 hover:underline">
-            Sign up
-          </Link>
-        </p>
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-6">
+              {/* Username/Email Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Username or Email
+                </label>
+                <input
+                  type="text"
+                  name="input"
+                  required
+                  value={inputData.input}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Enter your username or email"
+                />
+              </div>
+
+              {/* Password Input */}
+              <div>
+                <div className="flex items-center justify-between mb-2 ">
+                  <label className="text-sm font-medium text-gray-700">
+                    Password
+                  </label>
+                  
+                </div>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    required
+                    value={inputData.password}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200"
+                    placeholder="Enter your password"
+                  />
+                 
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+              </div>
+              <div className='text-right '>
+                 <Link
+                    to="/forgotPassword"
+                    className="text-sm text-emerald-600 hover:text-emerald-700 hover:underline"
+                  >
+                   <span className=''> Forgot password?</span>
+                  </Link>
+                 </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r  from-blue-600 via-teal-600 to-emerald-600  text-white font-medium py-3 rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200 flex items-center justify-center space-x-2"
+              >
+                {isLoading ? (
+                  <Loader className="animate-spin w-5 h-5" />
+                ) : (
+                  <>
+                    <LogIn className="w-5 h-5" />
+                    <span>Sign in</span>
+                  </>
+                )}
+              </button>
+
+              {/* Sign Up Link */}
+              <p className="text-center text-gray-600">
+                Don't have an account?{' '}
+                <Link
+                  to="/signup"
+                  className="text-emerald-600 hover:text-emerald-700 hover:underline font-medium"
+                >
+                  Sign up
+                </Link>
+              </p>
+            </form>
+          </motion.div>
+
+          {/* Additional Info */}
+          <div className="mt-8 text-center text-sm text-gray-500">
+            <p>By signing in, you agree to our</p>
+            <div className="space-x-2">
+              <Link to="/terms" className="text-emerald-600 hover:underline">Terms of Service</Link>
+              <span>&</span>
+              <Link to="/privacy" className="text-emerald-600 hover:underline">Privacy Policy</Link>
+            </div>
+          </div>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

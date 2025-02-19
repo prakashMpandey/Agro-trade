@@ -146,7 +146,7 @@ const MyBids = () => {
                     <div className="space-y-3">
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Farmer:</span>
-                        <span className="text-gray-900">{bid.auction.farmer.username}</span>
+                        <span className="text-gray-900">{bid.auction.farmer.username ? bid.auction.farmer.username : "N/A"}</span>
                       </div>
 
                       {/* <div className="flex justify-between text-sm">

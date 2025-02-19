@@ -54,8 +54,6 @@ export const deleteOnCloudinary= async(publicURL) =>{
             return response
 
     } catch (error) {
-
-        fs.unlinkSync(localFilePath)
         return error
     }
     

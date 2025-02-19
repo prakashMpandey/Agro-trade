@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Upload, Calendar, Link as LinkIcon } from 'lucide-react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import { useAuthStore } from '../../../store/authStore';
 import AdminSidebar from '../../components/AdminSidebar';
 const CreateInfo = () => {
@@ -48,14 +49,14 @@ const CreateInfo = () => {
         formDataToSend.append(key, formData[key]);
       });
 
-      // API call will go here
+
 
       const response=await axios.post(`${Admin_URL}/create-info`,formDataToSend);
 
 
       console.log('Form submitted:',response);
       
-      // Reset form after successful submission
+      toast.success('Information created successfully');
       setFormData({
         title: '',
         description: '',
@@ -68,6 +69,7 @@ const CreateInfo = () => {
       setImagePreview(null);
     } catch (error) {
       console.error('Error submitting form:', error);
+      toast.error('Failed to create information');
     } finally {
       setLoading(false);
     }

@@ -5,6 +5,7 @@ import ApiError from "../utilities/ApiError.utils.js";
 import { ApiResponse } from "../utilities/ApiResponse.utils.js";
 import { uploadOnCloudinary } from "../utilities/cloudinary.utils.js";
 import User from "../models/user.model.js";
+
 export const createAuction = async (req, res) => {
   const user = req.user;
 
@@ -17,7 +18,7 @@ export const createAuction = async (req, res) => {
 
   try {
     const { product_name, quantity, basePrice, desc,moisture,origin,organicStatus,certification,storage,
-      texture,color,deliveryTime,packaging,variety,harvestDate,quality
+      texture,color,deliveryTime,category ="other",packaging,variety,harvestDate,quality
      } = req.body;
     const p_imageLocalPath = req.file?.path;
 
@@ -61,7 +62,8 @@ export const createAuction = async (req, res) => {
       packaging,
       variety,
       harvestDate,
-      quality
+      quality,
+      category
     });
 
     console.log(product);
@@ -71,7 +73,9 @@ export const createAuction = async (req, res) => {
         .json(new ApiError(500, "failed to create product"));
     }
 
-    const endTime = new Date(Date.now() + 4 * 60 * 60 * 1000);
+    console.log("product created successfully");
+
+    const endTime = new Date(Date.now() + 6 * 60 * 60 * 1000);
     const newAuction = await Auction.create({
       product: product._id,
       basePrice: basePrice,
@@ -140,15 +144,15 @@ export const placeBidHelper = async ({bidAmount, auctionId, userId}) => {
 
     console.log("user id", userId, "farmer id", auction.farmer);
     if (userId.toString() === auction.farmer.toString()) {
-      return new ApiError(400, "khud hi khareede ga");
+      return new ApiError(400, "you are the owner,you cannot buy it");
     }
 
     if (auction.highestBidder && auction.highestBidder.toString() === userId.toString()) {
-      return new ApiError(400, "sabar karo ,aap jeet rhe ho ");
+      return new ApiError(400, "You are the current highest bidder");
     }
 
-    if (bidAmount >= 1000000) {
-      return new ApiError(400, "sorry bro bid lower");
+    if (bidAmount >= 100000) {
+      return new ApiError(400, "max limit 100000 ");
     }
 
     console.log(bidAmount, auctionId, userId);
@@ -278,10 +282,32 @@ export const auctionController = async (io) => {
 };
 
 export const getAllActiveAuctions = async (req, res) => {
-  const auctions = await Auction.find({
+
+  console.log(req.query)
+  const {filter="all"}=req.query;
+  console.log(filter)
+
+  if(filter==="all")
+  {
+    const auctions = await Auction.find({
+
+      $and:[{status:{$in:["active",-1]}},{endTime:{$gt:Date.now()}}]
+    }).populate("product","p_name p_desc p_image p_qty category").populate("farmer","username")
+    return res.status(200).json(new ApiResponse(200,auctions,"all auctions fetched successfully"))
+  }
+
+
+  const auctions=await Auction.find({
     status:{$in:["active",-1]},
-    endTime: { $gt: Date.now() }
-  }).populate("product");
+    endTime:{$gt:Date.now()},
+  }).populate("product","p_name p_desc p_image p_qty category").populate("farmer","username").sort({endTime:-1});
+
+   console.log(auctions)
+
+
+  const filteredAuctions=auctions.filter(auction=>auction.product.category===filter);
+  console.log(filteredAuctions)
+
 
   if (!auctions) {
     return res.status(404).json(new ApiError(404, "no auctions found"));
@@ -291,7 +317,7 @@ export const getAllActiveAuctions = async (req, res) => {
     return res.status(200).json(new ApiResponse(200, auctions, "no auctions today"));
   }
 
-  return res.status(200).json(new ApiResponse(200, auctions, "successfully found active auctions"));
+  return res.status(200).json(new ApiResponse(200, filteredAuctions, "successfully found active auctions"));
 };
 
 export const deleteAuction = async (req, res) => {
@@ -392,6 +418,8 @@ export const myAuctionHistory = async (req, res) => {
    }
   }
 
+  searchQuery.farmer=req.user._id
+
   
 
   console.log("searchQuery",searchQuery)
@@ -419,19 +447,13 @@ export const myBids = async (req, res) => {
 
     const searchQuery={bidder:req.user._id}
 
-    const bids = await Bid.find({ bidder: searchQuery.bidder})
-      .populate([
-        {
-          path: 'auction',
-          populate: [
-            { path: 'product' },
-            { path: 'farmer', select: 'username' }
-          ]
-        }
-      ])
-      .sort({ bid_time: -1 }) // Sort by newest first
-      .skip(skip)
-      .limit(limit);
+    const bids = await Bid.find({ bidder: searchQuery.bidder}).populate([
+      {path:"auction",populate:{path:"product",select:"p_name p_desc p_image p_qty category"}},
+      {path:"auction",populate:{path:"farmer",select:"username"}}
+    ])
+
+     
+
 
 
      
@@ -513,6 +535,7 @@ export const getDashboardStats = async (req, res) => {
 
 export const searchAuctions = async (req, res) => {
 
+  console.log(req.query)
   const {query}=req.query
 
   if(!query)

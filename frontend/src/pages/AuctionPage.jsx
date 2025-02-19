@@ -118,7 +118,7 @@ const AuctionPage = () => {
     };
 
     const handleWatching = async(data) => {
-      console.log("watchingUsers",data.watchingUsers)
+      // console.log("watchingUsers",data.watchingUsers)
     }
 
     socket.on("connect", handleSocketConnect);
@@ -169,7 +169,7 @@ const AuctionPage = () => {
   useEffect(() => {
     socket.on("placeBid", (data) => {
       if (data?.status === 200) {
-        console.log("Bid Placed Successfully:", data);
+        // console.log("Bid Placed Successfully:", data);
         toast.success(data?.message || "bid placed successfully",{delay:100});
         setLoadingState()
       } else {
@@ -186,7 +186,7 @@ const AuctionPage = () => {
   return (
     <div className="bg-gray-100 min-h-screen p-8">
       {/* Main Container */}
-      <div className="max-w-screen-xl mx-auto grid grid-cols-3 gap-8">
+      <div className="max-w-screen-xl mx-auto flex flex-col-reverse sm:grid sm:grid-cols-3 gap-8">
         {/* Left Section: Leaderboard */}
         <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow duration-300">
           <div className="flex items-center justify-between mb-6">
@@ -288,7 +288,7 @@ const AuctionPage = () => {
       </div>
 
       {/* {auctionData.product && <ProductDesc data={auctionData.product}/>} */}
-      <RecomendedAuction />
+ 
     </div>
   );
 };

@@ -47,112 +47,111 @@ const ForgotPassword = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.1 }}
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-teal-500 to-green-500"
-    >
-      {!isSubmitted ? (
-        <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-2xl">
-          <h2 className="text-3xl font-bold text-gray-800 text-center">
-            Forgot Password
-          </h2>
-          <p className="text-sm text-gray-600 text-center mt-2 mb-6">
-            Enter your email to receive password reset instructions.
-          </p>
-
-          {errorMessage && (
-            <div className="mb-4 text-red-600 text-center text-sm font-medium">
-              {errorMessage}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                required
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="example@domain.com"
-                className="w-full mt-2 px-4 py-3 border rounded-lg shadow-sm text-gray-800 focus:ring-2 focus:ring-teal-400 focus:outline-none transition-all duration-300"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className={`w-full flex justify-center items-center px-4 py-3 font-semibold text-white rounded-lg shadow-md transition-all duration-300 ${
-                isLoading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-teal-500 hover:bg-teal-600 transform hover:scale-105"
-              }`}
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50">
+      <div className="absolute inset-0 bg-grid-slate-900/[0.04] -z-1"></div>
+      <div className="container mx-auto px-4 flex items-center justify-center">
+        <div className="w-full max-w-md -mt-16">
+          {!isSubmitted ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-xl border border-gray-200 overflow-hidden"
             >
-              {isLoading ? (
-                <Loader className="animate-spin" size={20} />
-              ) : (
-                "Send Reset Link"
+              <div className="px-8 pt-8 pb-6">
+                <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
+                  Forgot Password
+                </h2>
+                <p className="text-center text-gray-600">
+                  Enter your email to receive password reset instructions.
+                </p>
+              </div>
+
+              {errorMessage && (
+                <div className="px-8 mb-4 text-red-600 text-center text-sm font-medium">
+                  {errorMessage}
+                </div>
               )}
-            </button>
-          </form>
 
-          <div className="mt-4 text-center">
-            <Link
-              to="/signin"
-              className="text-teal-500 hover:text-teal-600 hover:underline transition-all"
+              <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={email}
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="example@domain.com"
+                    className="w-full focus:outline-none px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-blue-600 via-teal-600 to-emerald-600 text-white font-medium py-3 rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? (
+                    <Loader className="animate-spin w-5 h-5" />
+                  ) : (
+                    "Send Reset Link"
+                  )}
+                </button>
+
+                <div className="text-center">
+                  <Link
+                    to="/signin"
+                    className="text-emerald-600 hover:text-emerald-700 hover:underline font-medium"
+                  >
+                    Back to Login
+                  </Link>
+                </div>
+              </form>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-xl border border-gray-200 overflow-hidden p-8"
             >
-              Back to Login
-            </Link>
-          </div>
-        </div>
-      ) : (
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md p-8 bg-white shadow-lg rounded-2xl"
-        >
-          <h2 className="text-3xl font-bold text-gray-800 text-center mb-4">
-            Reset Link Sent!
-          </h2>
-          {successMessage && (
-            <div className="mb-6 text-green-600 text-center text-sm font-medium">
-              {successMessage}
-            </div>
+              <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">
+                Reset Link Sent!
+              </h2>
+              {successMessage && (
+                <div className="mb-6 text-green-600 text-center text-sm font-medium">
+                  {successMessage}
+                </div>
+              )}
+              <p className="text-gray-600 text-center mb-6">
+                Check your inbox and follow the link to reset your password. If you
+                don't see the email, make sure to check your spam folder.
+              </p>
+              <div className="mt-6 text-center">
+                <Link
+                  to="/signin"
+                  className="text-emerald-600 hover:text-emerald-700 hover:underline font-medium"
+                >
+                  Go to Login
+                </Link>
+              </div>
+              <div className="mt-4 text-center" onClick={(e) => setSubmit(!isSubmitted)}>
+                <Link
+                  to="/forgotPassword"
+                  className="text-gray-500 hover:text-gray-700 hover:underline transition-all"
+                >
+                  Didn't receive the email? Try again
+                </Link>
+              </div>
+            </motion.div>
           )}
-          <p className="text-gray-600 text-center mb-6">
-            Check your inbox and follow the link to reset your password. If you
-            don't see the email, make sure to check your spam folder.
-          </p>
-          <div className="mt-6 text-center">
-            <Link
-              to="/signin"
-              className="text-teal-500 hover:text-teal-600 hover:underline transition-all"
-            >
-              Go to Login
-            </Link>
-          </div>
-          <div className="mt-4 text-center" onClick={(e)=>{
-            setSubmit(!isSubmitted) 
-        }}>
-            <Link
-              to="/forgotPassword"
-              className="text-gray-500 hover:text-gray-700 hover:underline transition-all"
-            >
-              Didn't receive the email? Try again
-            </Link>
-          </div>
-        </motion.div>
-      )}
-    </motion.div>
+        </div>
+      </div>
+    </div>
   );
 };
 

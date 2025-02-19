@@ -17,7 +17,7 @@ const {Auction_URL,isLoading}=useAuthStore();
       const response=await axios.get(`${Auction_URL}/dashboard-stats`,{withCredentials:true});
       setDashboardStats(response.data.data);
 
-      console.log(response.data.data)
+      // console.log(response.data.data)
     }
     fetchDashboardStats();
   },[])

@@ -2,10 +2,10 @@ import mongoose,{Schema} from "mongoose";
 
 const infoSchema=new Schema({
 
-    type:{
+    category:{
         type:String,
         required:true,
-        lowercase:true
+        lowercase:true,
     },
     title:{
         type:String,
@@ -22,7 +22,19 @@ const infoSchema=new Schema({
 
         type:String,
         required:true
-    }
+    },
+    source:{
+        type:String,
+        required:true
+    },
+    validTill:{
+        type:Date,
+        
+    } ,
+    externalLink:{
+        type:String,
+        required:true
+    }     
 
 },{timestamps:true})
 

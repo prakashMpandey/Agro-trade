@@ -1,7 +1,7 @@
 import { isObjectIdOrHexString } from "mongoose";
 import Auction from "../models/auction.model.js";
 import { CronJob } from "cron";
-import { sendWinnerEmail } from "../mailTrap/emailSender.js";
+import { sendCompletionEmail, sendWinnerEmail } from "../mailTrap/emailSender.js";
 
 export const job = (io) => {
     console.log("Cron job started");
@@ -34,7 +34,9 @@ export const job = (io) => {
                  
                     if (auction.highestBidder) {
                         await sendWinnerEmail(auction);
+                        await sendCompletionEmail(auction);
                     }
+                
 
                     console.log(`Auction closed with id: ${auction._id}`);
                 }

@@ -44,8 +44,8 @@ const AdminBottomCard=(props)=>{
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {users.slice(0, 5).map((user) => (
-                    <tr key={user.id}>
+                  {users.slice(0, 5).map((user, index) => (
+                    <tr key={user.id || index}>
                       <td className="px-6 py-4">{user.username}</td>
                       <td className="px-6 py-4">{user.role}</td>
                       <td className="px-6 py-4">
@@ -75,8 +75,8 @@ const AdminBottomCard=(props)=>{
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {auctions.slice(0, 5).map((auction) => (
-                <tr key={auction.id}>
+              {auctions.slice(0, 5).map((auction, index) => (
+                <tr key={auction.id || index}>
                   <td className="px-6 py-4">{auction.product.p_name}</td>
                   <td className="px-6 py-4">₹{auction.basePrice}</td>
                   <td className="px-6 py-4">

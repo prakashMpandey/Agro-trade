@@ -139,7 +139,7 @@ const Information = () => {
                         />
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">{info.title}</div>
-                          <div className="text-sm text-gray-500 line-clamp-1">{info.description}</div>
+                          <div className="text-sm text-gray-500 line-clamp-1">{((info.description).slice(0,40))+"..."}</div>
                         </div>
                       </div>
                     </td>

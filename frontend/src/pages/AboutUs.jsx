@@ -43,19 +43,19 @@ const AboutUs = () => {
 
   const team = [
     {
-      name: 'Prakash Mani Pandey',
+      name: 'kakarot',
       position: 'Founder & CEO',
-      image: 'https://qph.cf2.quoracdn.net/main-qimg-c8d3783b73f185ac5c6c29f1afb0b4f1-lq'
+      image: 'goku.png'
     },
     {
       name: 'Jethalal Champaklal Gada',
       position: 'Head of Operations',
-      image: 'https://www.tellychakkar.com/sites/www.tellychakkar.com/files/styles/display_665x429/public/images/movie_image/2022/09/27/Dilip-Joshi.jpg'
+      image:"jethalal.webp"
     },
     {
-      name: 'Bulma Brief',
+      name: 'Krishnan Iyer ',
       position: 'Technical Director',
-      image: 'https://staticg.sportskeeda.com/editor/2022/06/fd5f3-16551069347246-1920.jpg'
+      image: 'krishnan.jpg'
     }
   ];
 
@@ -128,7 +128,7 @@ const AboutUs = () => {
               fostering direct farmer-to-buyer relationships and contributing to 
               the growth of the agricultural sector.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">``
               <div className="flex flex-col items-center">
                 <Target className="w-12 h-12 text-teal-600 mb-4" />
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Market Access</h3>

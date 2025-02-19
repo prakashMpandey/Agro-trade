@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+.dbz-page {
+  min-height: 100vh;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.goku-image {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+.goku-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.error-content {
+  text-align: center;
+  z-index: 2;
+}
+
+.power-text {
+  font-size: 8rem;
+  color: #FFD700;
+  text-shadow: 
+    0 0 10px #FFD700,
+    0 0 20px #FFA500,
+    0 0 30px #FF8C00;
+  margin: 0;
+  animation: powerPulse 2s infinite;
+}
+
+.message {
+  font-size: 2rem;
+  color: #fff;
+  margin: 20px 0;
+  font-weight: bold;
+  text-shadow: 0 0 10px #fff;
+}
+
+.kamehameha-btn {
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  background: linear-gradient(45deg, #1E90FF, #00BFFF);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
+}
+
+.kamehameha-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(30, 144, 255, 0.8);
+}
+
+@keyframes powerPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@media (max-width: 768px) {
+  .power-text {
+    font-size: 4rem;
+  }
+  
+  .message {
+    font-size: 1.5rem;
+  }
+  
+  .kamehameha-btn {
+    font-size: 1.2rem;
+  }
+} 

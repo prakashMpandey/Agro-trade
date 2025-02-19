@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ContactUs from './ContactUs';
 import {
   Users,
   Target,
@@ -57,27 +56,8 @@ const LandingPage = () => {
     }
   ];
 
-  const testimonials = [
-    {
-      name: 'Ramesh Patel',
-      role: 'Farmer, Gujarat',
-      content: 'Thanks to this platform, I now get 20-30% better prices for my crops. The direct connection with buyers has transformed my farming business.',
-      image: 'https://images.unsplash.com/photo-1628157588553-5eeea00af15c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8aW5kaWFuLWZhcm1lcnx8fHx8fDE3MDcxMjk4NTc&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'
-    },
-    {
-      name: 'Suresh Kumar',
-      role: 'Wholesale Buyer, Delhi',
-      content: 'The platform has streamlined our procurement process. We can now source quality produce directly from farmers across India.',
-      image: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=300&q=80'
-    }
-  ];
+  
 
-  const stats = [
-    { label: 'Active Farmers', value: '10,000+' },
-    { label: 'Successful Auctions', value: '50,000+' },
-    { label: 'States Covered', value: '15+' },
-    { label: 'Trading Volume', value: '₹100Cr+' }
-  ];
 
   return (
     <div className="min-h-screen">
@@ -100,7 +80,7 @@ const LandingPage = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <button
-              onClick={() => navigate('/register')}
+              onClick={() => navigate('/signup')}
               className="px-8 py-4 bg-white text-teal-600 rounded-lg font-medium hover:bg-teal-50 transition-colors duration-200"
             >
               Get Started
@@ -115,7 +95,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* Stats Section */}
+
      
 
       {/* Features Section */}
@@ -201,47 +181,8 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* Testimonials Section */}
-      <div className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              What Our Users Say
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Real experiences from farmers and buyers using our platform
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-md p-8">
-                <div className="flex items-center mb-6">
-                  <img
-                    className="w-16 h-16 rounded-full object-cover"
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                  />
-                  <div className="ml-4">
-                    <div className="text-xl font-semibold text-gray-900">
-                      {testimonial.name}
-                    </div>
-                    <div className="text-gray-600">{testimonial.role}</div>
-                  </div>
-                </div>
-                <p className="text-gray-600 italic">"{testimonial.content}"</p>
-                <div className="flex mt-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+    
 
-      {/* Contact Section */}
-        <ContactUs/>
 
       {/* CTA Section */}
       <div className="bg-gradient-to-r from-teal-500 to-blue-500 text-white py-16">

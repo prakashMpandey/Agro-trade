@@ -87,14 +87,23 @@ const VerificationEmailPage = () => {
         e.preventDefault();
         const verificationCode=code.join("");
         try {
-            await verify_email(verificationCode);
-            navigate("/home")
+            const response =await verify_email(verificationCode);
 
-            toast.success("email verified successfully")
+            if(response.success)
+            {
+                toast.success("email verified successfully")
+                navigate("/home")
+            }
+
+            toast.error(response.message)
+            
 
         } catch (error) {
+
             
             console.log(error)
+            toast.error("something went wrong try again later")
+            navigate("/signin")
         }
 
     }

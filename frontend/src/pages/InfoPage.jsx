@@ -1,68 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Search, BookOpen, Sprout, IndianRupee, Tractor, Filter } from 'lucide-react';
+import { Search, BookOpen, Sprout, IndianRupee, Tractor, Filter, CloudHail } from 'lucide-react';
+import {toast} from 'react-toastify';
+import { useAuthStore } from "../../store/authStore.js";
+import { motion } from 'framer-motion';
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 
-const sampleInfo = [
-  {
-    _id: '1',
-    title: 'PM Kisan Samman Nidhi Yojana',
-    description: 'Direct income support of ₹6000 per year to eligible farmer families in three equal installments.',
-    category: 'schemes',
-    image: 'https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?ixlib=rb-4.0.3',
-    source: 'Ministry of Agriculture',
-    link: 'https://pmkisan.gov.in/',
-    validTill: '2024-12-31'
-  },
-  {
-    _id: '2',
-    title: 'Drip Irrigation Technique',
-    description: 'Modern irrigation method that saves water and nutrients by allowing water to drip slowly to the roots of plants.',
-    category: 'techniques',
-    image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3',
-    source: 'Agricultural Extension Service',
-    link: 'https://agricoop.gov.in/divisiontype/rainfed-farming-system/programs'
-  },
-  {
-    _id: '3',
-    title: 'Modern Harvester Equipment',
-    description: 'Latest combine harvester with advanced grain separation technology and GPS guidance system.',
-    category: 'equipment',
-    image: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-4.0.3',
-    source: 'Agricultural Machinery Portal',
-    link: 'https://agrimachinery.nic.in/'
-  },
-  {
-    _id: '4',
-    title: 'Soil Health Card Scheme',
-    description: 'Government scheme to issue soil cards to farmers which will carry crop-wise recommendations of nutrients.',
-    category: 'schemes',
-    image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3',
-    source: 'Soil Health Card Portal',
-    link: 'https://soilhealth.dac.gov.in/',
-    validTill: '2024-03-31'
-  },
-  {
-    _id: '5',
-    title: 'Vertical Farming Method',
-    description: 'Innovative technique for growing crops in vertically stacked layers, perfect for urban farming.',
-    category: 'techniques',
-    image: 'https://images.unsplash.com/photo-1505471768190-275e2ad070c9?ixlib=rb-4.0.3',
-    source: 'Agricultural Research Institute',
-    link: 'https://icar.org.in/content/vertical-farming'
-  },
-  {
-    _id: '6',
-    title: 'Smart Irrigation Controller',
-    description: 'IoT-based irrigation controller that automatically adjusts watering based on weather conditions.',
-    category: 'equipment',
-    image: 'https://images.unsplash.com/photo-1463123081488-789f998ac9c4?ixlib=rb-4.0.3',
-    source: 'Agri-Tech Portal',
-    link: 'https://agrionics.in/smart-irrigation'
-  }
-];
 
 const InfoPage = () => {
+  const {Info_URL}=useAuthStore();
+ 
+
   const [activeTab, setActiveTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+
   const [info, setInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -78,34 +29,82 @@ const InfoPage = () => {
   }, [activeTab]);
 
   const fetchInfo = async () => {
+
+
     try {
       setLoading(true);
-      // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Filter based on activeTab
-      const filteredData = activeTab === 'all' 
-        ? sampleInfo 
-        : sampleInfo.filter(item => item.category === activeTab);
-      
-      setInfo(filteredData);
-      setLoading(false);
+
+      console.log(activeTab)
+      const response =await fetch(`${Info_URL}/get-all/?category=${activeTab}`,{method:"GET",headers:{"Content-Type":"application/json",},credentials:"include",});
+
+      const data=await response.json();
+
+      if(response.status!==200) 
+      {
+        toast.error(data.message)
+      }
+
+      setInfo(data.data)
+
+      console.log(data.data)
+
     } catch (error) {
       console.error('Error fetching info:', error);
       setLoading(false);
     }
+    finally{
+      setLoading(false)
+    }
   };
 
-  const filteredInfo = info.filter(item =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const searchInfo = async () => {
 
+    try {
+      
+      const response =await fetch(`${Info_URL}/search/?query=${searchTerm}`,{method:"post",headers:{"Content-Type":"application/json",},credentials:"include",});
+
+      const data=await response.json();
+
+      if(response.status!==200)
+      {
+        toast.error(data.message)
+      }
+
+      // if(data.data.result.length===0)
+      // {
+      //   return;
+      // }
+
+      console.log("search item" ,data.data)
+
+
+      setInfo(data.data)
+
+      
+    } catch (error) {
+      console.log('Error fetching info:', error);
+    }
+
+
+  }
+
+  console.log("search item" ,info)
+
+  const handleSearch = (e) => {  
+
+    if(e.key==="Enter" && searchTerm)
+    {
+      searchInfo();
+    }
+
+  }
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className=""></div>
           Farming Information Hub
         </h1>
         <p className="text-lg text-gray-600">
@@ -124,6 +123,7 @@ const InfoPage = () => {
                 placeholder="Search information..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={handleSearch}
                 className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
               />
             </div>
@@ -155,9 +155,13 @@ const InfoPage = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredInfo.map((item) => (
-              <div
+            {info.map((item) => (
+              <motion.div
                 key={item._id}
+                initial={{ opacity: 0, y:30 }}
+                animate={{ opacity: 1, y:0 }}
+                transition={{ duration: 0.3 }}
+
                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
               >
                 {item.image && (
@@ -188,9 +192,9 @@ const InfoPage = () => {
                   <p className="text-gray-600 mb-4">
                     {item.description}
                   </p>
-                  {item.link && (
+                  {item.externalLink && (
                     <a
-                      href={item.link}
+                      href={item.externalLink }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center text-green-600 hover:text-green-700"
@@ -209,12 +213,12 @@ const InfoPage = () => {
                     </p>
                   </div>
                 )}
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
         
-        {!loading && filteredInfo.length === 0 && (
+        {!loading && info.length === 0 && (
           <div className="text-center py-12">
             <Filter className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">No results found</h3>

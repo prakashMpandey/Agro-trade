@@ -14,10 +14,14 @@ export const sendVerificationEmail=async(email,verificationCode)=>{
             category:"Email verification"
         })
 
+
+        console.log(verificationCode)
         console.log("email sent successfully")
+        
+            
     } catch (error) {
         console.log("error sending verification code",error);
-        throw new ApiError(400,`ERROR SENDING VERIFICATION EMAIL${error}`)
+        // throw new ApiError(400,`ERROR SENDING VERIFICATION EMAIL${error}`)
     }
 }
 
@@ -63,7 +67,7 @@ export const sendResetPasswordEmail=async(email,resetURL)=>{
     } catch (error) {
 
         console.log("reset password email cannot be sent")
-        throw new ApiError(400,"password cannot be reset")
+        // throw new ApiError(400,"password cannot be reset")
     }
 }
 
@@ -86,7 +90,7 @@ export const sendResetPasswordSuccessfulEmail=async(email)=>{
         console.log("password reset successful")
     } catch (error) {
         console.log("password cannot be reset")
-        throw new ApiError(400,"password reset email cannot be sent")
+        // throw new ApiError(400,"password reset email cannot be sent")
     
 }}
 
@@ -122,7 +126,7 @@ export const sendWinnerEmail=async(auction)=>{
     } catch (error) {
 
         console.log("winning email cannot be sent")
-        throw new ApiError(500,"winning email cannot be sent",error)
+        //  new ApiError(500,"winning email cannot be sent",error)
     
         
     }
@@ -162,7 +166,7 @@ export const sendCompletionEmail=async(auction)=>{
     } catch (error) {
 
         console.log("completion email cannot be sent")
-        throw new ApiError(500,"completion email cannot be sent",error)
+        // throw new ApiError(500,"completion email cannot be sent",error)
     
         
     }

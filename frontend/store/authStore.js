@@ -16,7 +16,7 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: false,
    Auction_URL :"http://localhost:4000/api/v1/auction",
    Admin_URL:"http://localhost:4000/api/v1/admin",
-
+    Info_URL:"http://localhost:4000/api/v1/info",
 
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
@@ -36,6 +36,7 @@ export const useAuthStore = create((set) => ({
     }
   },
 
+
  
   signup: async (data) => {
     set({ isLoading: true, error: null });
@@ -49,19 +50,30 @@ export const useAuthStore = create((set) => ({
         role,
       });
 
-      set({
-        user: response.data.data.user,
-        isAuthenticated: true,
-        isLoading: false,
-      });
+      console.log(response)
 
-      toast.success("Sign-up successful!");
+      if(response.status===200)
+      {
+        set({
+          success:true,
+          user: response.data.data.user,
+          isAuthenticated: true,
+          isLoading: false,
+        });
+  
+        
+        return {success:true,}
+
+      }
+
+
     } catch (error) {
       set({
         error: error.response?.data?.message || "Error signing up",
         isLoading: false,
       });
-      toast.error(error.response?.data?.message || "Error signing up");
+      return {success:false,message:error.response?.data?.message}
+     
     }
   },
 
@@ -91,6 +103,8 @@ export const useAuthStore = create((set) => ({
         });
         toast.success("Login successful!");
         return true;
+
+        
       } else {
         toast.error(receivedData.message || "Login failed");
         set({
@@ -127,16 +141,18 @@ export const useAuthStore = create((set) => ({
         isAuthenticated: true,
         error: null,
       });
-      toast.success("Email verified successfully!");
+
+      return ({success:true})
+      
     } catch (error) {
       set({
         error:
           error.response?.data?.message || error.message || "Error verifying email",
         isLoading: false,
       });
-      toast.error(
-        error.response?.data?.message || error.message || "Error verifying email"
-      );
+
+      return ({success:false,message:error.response?.data?.message})
+   
     }
   },
 

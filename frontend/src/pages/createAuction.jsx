@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../../store/authStore';
-import { set } from 'mongoose';
+
 import { useNavigate } from 'react-router-dom';
 
 const Auction_URL = "http://localhost:4000/api/v1/auction";
@@ -360,17 +360,17 @@ const CreateAuction = () => {
                         name="quantity"
                         type="text"
                         placeholder="Enter quantity"
-                        className="flex-grow rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                        className="flex-grow rounded-md p-2 border focus:outline-none focus:ring-2 focus:ring-blue-400 border-gray-300 shadow-sm "
                       />
                       <select 
                         name='unit' 
                         value={productData.unit}
                         onChange={handleChange} 
-                        className="rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                        className="rounded-md p-2 capitalize border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                       >
-                        <option value="kg">kg</option>
-                        <option value="quintal">quintal</option>
-                        <option value="Litre">L</option>
+                        <option value="kgs">kgs</option>
+                        <option value="quintals">quintals</option>
+                        <option value="Litres">Litres</option>
                         <option value="pcs">pcs</option>
                       </select>
                     </div>
@@ -386,10 +386,10 @@ const CreateAuction = () => {
                         value={productData.basePrice}
                         onChange={handleChange}
                         name='basePrice'
-                        className="w-32 rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                        className="p-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Ex: 2000"
                       />
-                      <span className="text-gray-600">per {productData.unit}</span>
+                      <span className="text-gray-800 capitalize">per {productData.unit}</span>
                     </div>
                   </div>
                 </div>
@@ -448,7 +448,7 @@ const CreateAuction = () => {
                   onChange={handleChange}
                   rows="4"
                   placeholder="Enter detailed product description..."
-                  className="w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500"
+                  className="w-full p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 border-gray-300 shadow-sm "
                 ></textarea>
               </div>
 

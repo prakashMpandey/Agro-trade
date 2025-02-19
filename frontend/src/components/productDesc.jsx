@@ -4,7 +4,7 @@ import { useAuthStore } from '../../store/authStore';
 import { Divide } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { CONSTRAINTS } from 'cron/dist/constants';
+
 
 
 const ProductDesc = () => {
@@ -84,10 +84,7 @@ return (
                     </span>
                   </div>
                 </div>
-                <div>
-                  <Timer className="w-5 h-5 text-orange-500" />
-                  <p className="text-orange-500 font-medium">23:45:12 left</p>
-                </div>
+               
               </div>
             </div>
 
@@ -104,7 +101,7 @@ return (
                 <Calendar className="w-5 h-5 text-gray-600 mb-2" />
                 <p className="text-gray-600">Harvest Date</p>
                 <p className="text-lg font-semibold text-gray-900">
-                  {new Date(auctionData?.product.harvestDate).toLocaleDateString()}
+                  {new Date(auctionData?.product.harvestDate).toLocaleDateString('en-in',{dateStyle:"medium"})}
                 </p>
               </div>
             </div>
@@ -115,7 +112,7 @@ return (
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-gray-600">Grade</p>
-                  <p className="text-lg font-semibold text-gray-900">{auctionData?.product.quality}</p>
+                  <p className="text-lg font-semibold capitalize text-gray-900">{auctionData?.product.quality}</p>
                 </div>
                 <div>
                   <p className="text-gray-600">Moisture</p>

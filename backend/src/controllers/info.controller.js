@@ -1,90 +1,77 @@
+import { create } from "domain";
 import Info from "../models/Info.model.js";
 import ApiError from "../utilities/ApiError.utils.js";
 import { ApiResponse } from "../utilities/ApiResponse.utils.js";
 
-export const getInfo=async(req,res)=>{
-try {
-    
-        const {contentId}=req.params;
-    
-        if(!contentId)
-        {
-    
-            return res.status(400).json(new ApiError(400,"no content id found"))
-        }
-    
-        const content=await Info.findById(contentId);
-        
-        if(!content)
-        {
-            return res.status(404).json(new ApiError(404,"no content found"))
-        }
-    
-        res.status(200).json(new ApiResponse(200,content,"content fetched successfully"));
-} catch (error) {
+export const getAllInfo = async (req, res) => {
+  const { category } = req.query;
 
-    res.status(500).json(new ApiError(500,error))
-    
-}
-}
+  const { limit } = req.query;
 
-export const searchInfo=async(req,res)=>{
+  console.log(req.query);
+  console.log(req.query.category);
 
-    let {query,limit=10,sortBy,sortType,page=1}=req.query;
+  if (category === "all" || `${category}` === "undefined") {
+    const info = limit
+      ? await Info.find({}).limit(Number(limit))
+      : await Info.find({});
+    return res
+      .status(200)
+      .json(new ApiResponse(200, info, "info fetched successfully"));
+  }
 
-    page=Number(page);
-    limit=Number(limit);
+  const info = await Info.find({ category: category });
 
-    let sort=1;
-    let sortByField="title";
+  if (!info) {
+    return res.status(500).json(new ApiError(500, "cannot find anything"));
+  }
 
-    if(!query)
+  return res
+    .status(200)
+    .json(new ApiResponse(200, info, "info fetched successfully"));
+};
+export const searchInfo = async (req, res) => {
+  let { query, limit = 10, page = 1 } = req.query;
+
+  console.log(req.query);
+
+  page = Number(page);
+  limit = Number(limit);
+
+  if (!query) {
+    console.log("search value not found");
+  }
+
+  const skip = (page - 1) * limit;
+
+  const result = await Info.aggregate([
     {
-        console.log("search value not found")
-    }
-
-    if(sortBy)
+      $match: {
+        title: { $regex: query, $options: "i" },
+      },
+    },
     {
-        sortByField=sortBy
-    }
-    if(sortType)
+      $sort: {
+        createdAt: -1,
+      },
+    },
     {
-        sortType="desc"?sort=-1:sort=1;
-    }
-
-    const skip=(page-1)*limit;
-    
-    const result=await Info.aggregate([
-        {
-            $match:{
-                title:{$regex:query,$options:"i"}
-            }
-        },
-        {
-            $sort:{
-                [sortByField]:sort
-            }
-        },
-        {
-            $skip:skip
-        },
-        {
-            $limit:limit
-        },
-       
-    ])
-
-    if(!result)
+      $skip: skip,
+    },
     {
-        return res.status(500).json(new ApiError(500,"cannot find anything"))
-    }
+      $limit: limit,
+    },
+  ]);
 
-    if(result.length===0)
-    {
-        return res.status(200).json(new ApiResponse(200,result,"no result found"))
-    }
+  if (!result) {
+    return res.status(500).json(new ApiError(500, "cannot find anything"));
+  }
 
-    
-    return res.status(200).json(new ApiResponse(200,{result,"total":result.length},"results search successfully"))
+  if (result.length === 0) {
+    return res.status(200).json(new ApiResponse(200, [], "no result found"));
+  }
 
-}
+  return res
+    .status(200)
+    .json(new ApiResponse(200, result, "results search successfully"));
+};

@@ -113,7 +113,7 @@ try {
   
       const formData = new FormData();
     formData.append("avatar", avatar); 
-      console.log(avatar)
+    
       const response=await fetch(`${User_URL}/add-avatar`,{method:"post",
         
         credentials:"include",
