@@ -10,7 +10,7 @@ import {Toaster} from "react-hot-toast"
 import HomePage from './pages/HomePage'
 import { useAuthStore } from '../store/authStore.js'
 import { Navigate } from 'react-router-dom'
-import ResetPassword from './pages/ResetPassword.jsx'
+import ResetPassword from "./pages/ResetPassoword.jsx"
 import LoadingPage from './pages/LoadingPage.jsx'
 import Navbar from './components/Navbar.jsx'
 import CreateAuction from './pages/CreateAuction.jsx'
