@@ -9,6 +9,8 @@ import { job } from "./utilities/automaticDeletor.utils.js";
 const app=express();
 
 dotenv.config()
+
+console.log(process.env.FRONTEND_URL)
 export const httpServer=http.createServer(app)
 const io=new Server(httpServer,{
     cors: {
@@ -20,7 +22,7 @@ const io=new Server(httpServer,{
 job(io)
 auctionController(io)
 
-  
+ 
 
 
 app.use(cookieParser());
