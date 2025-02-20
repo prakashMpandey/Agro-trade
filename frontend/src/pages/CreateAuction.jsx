@@ -5,7 +5,6 @@ import { useAuthStore } from '../../store/authStore';
 
 import { useNavigate } from 'react-router-dom';
 
-const Auction_URL = "http://localhost:4000/api/v1/auction";
 
 const CreateAuction = () => {
 
@@ -35,7 +34,7 @@ const CreateAuction = () => {
     const navigate=useNavigate()
     const [image,setImage]=useState(null)
     const [isDisabled,setIsDisabled]=useState(false)
-    const {isLoading,setLoadingState}=useAuthStore()
+    const {isLoading,setLoadingState,Auction_URL}=useAuthStore()
 
     const handleChange=(e)=>{
       const name=e.target.name;
