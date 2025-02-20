@@ -1,6 +1,8 @@
 import {io } from "socket.io-client"
+import dotenv from "dotenv"
 
-const socket = io("http://localhost:4000", {
+dotenv.config()
+const socket = io(process.env.BACKEND_URL, {
   withCredentials: true,
   autoConnect:false
 });
