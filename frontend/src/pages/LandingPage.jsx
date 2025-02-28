@@ -66,7 +66,7 @@ const LandingPage = () => {
         <div className="absolute inset-0">
           <img
             className="w-full h-full object-cover mix-blend-overlay opacity-10"
-            src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
+            src="background.avif"
             alt="Agriculture background"
           />
         </div>

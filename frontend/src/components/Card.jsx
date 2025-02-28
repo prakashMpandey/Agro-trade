@@ -23,7 +23,7 @@ const Card = (props) => {
   };
 
   const handleBid = (e) => {
-    navigate(`/auction/${props.auction._id}`);
+    navigate(`/product/${props.auction._id}`);
   };
 
   const handleProductDetails = () => {

@@ -42,6 +42,11 @@ try {
 
     return error
 }
+finally
+{
+    fs.unlinkSync(localFilePath);
+        
+}
    
 };
 
