@@ -41,7 +41,16 @@ try {
 } catch (error) {
 
     return error
-}  
+}
+finally
+{
+   if(fs.existsSync(localFilePath))
+   {
+    fs.unlinkSync(localFilePath);
+   }
+        
+}
+   
 };
 
 
