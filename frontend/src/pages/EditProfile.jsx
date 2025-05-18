@@ -10,7 +10,7 @@ const EditProfile = () => {
   const [isAnyThingChanged, setIsAnythingChanged] = useState(false);
   const { user,API_URL } = useAuthStore();
   const [profileImage, setProfileImage] = useState(user?.avatar || null);
-  const User_URL = `${API_URL}/api/v1/user`;
+  
   
   // Initialize all form fields with empty strings
   const [userData, setUserData] = useState({
@@ -34,7 +34,7 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`${User_URL}/isLoggedIn`, {
+        const response = await axios.get(`${API_URL}/isLoggedIn`, {
           withCredentials: true
         });
 
