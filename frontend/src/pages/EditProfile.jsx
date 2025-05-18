@@ -8,9 +8,9 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isAnyThingChanged, setIsAnythingChanged] = useState(false);
-  const { user } = useAuthStore();
+  const { user,API_URL } = useAuthStore();
   const [profileImage, setProfileImage] = useState(user?.avatar || null);
-  const User_URL = "http://localhost:4000/api/v1/user";
+  const User_URL = `${API_URL}/api/v1/user`;
   
   // Initialize all form fields with empty strings
   const [userData, setUserData] = useState({

@@ -427,7 +427,7 @@ const isLoggedIn = async (req, res) => {
   }
   try {
     const user = await User.findById(userId)
-      .select("-password -refreshToken")
+      .select("-password -refreshToken -resetPasswordToken -resetPasswordTokenExpiresAt")
       .populate("contact");
 
     console.log(user);
