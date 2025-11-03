@@ -327,7 +327,7 @@ const ProfilePage = () => {
                   <div>
                     <p className="text-sm text-gray-500">Phone</p>
                     <p className="text-gray-900 font-medium">
-                      {user?.contact.mobile.countryCode} {user?.contact?.mobile?.phoneNo || 'Not provided'}
+                      {user?.contact?.mobile?.countryCode} {user?.contact?.mobile?.phoneNo || 'Not provided'}
                     </p>
                   </div>
                 </div>
@@ -338,7 +338,7 @@ const ProfilePage = () => {
                     <p className="text-sm text-gray-500">Address</p>
                     <p className="text-gray-900 font-medium">
                       {user?.contact ? (
-                        `${user.contact.street}, ${user.contact.city}, ${user.contact.state} - ${user.contact.pinCode}`
+                        `${user?.contact?.street}, ${user?.contact?.city}, ${user?.contact?.state} - ${user?.contact?.pinCode}`
                       ) : (
                         'Address not provided'
                       )}
@@ -431,7 +431,7 @@ const ProfilePage = () => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Total Earnings</p>
-                        <p className="text-2xl font-bold text-gray-900">₹{productStats.earnings.toLocaleString()}</p>
+                        <p className="text-2xl font-bold text-gray-900">₹{productStats?.earnings?.toLocaleString()}</p>
                       </div>
                     </div>
                   </div>
@@ -441,13 +441,13 @@ const ProfilePage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {products.map((product) => (
                     <div 
-                      key={product._id} 
+                      key={product?._id} 
                       className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200"
                     >
                       <div className="aspect-w-16 aspect-h-9">
                         <img
-                          src={product.product.p_image}
-                          alt={product.product.p_name}
+                          src={product?.product?.p_image}
+                          alt={product?.product?.p_name}
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -455,26 +455,26 @@ const ProfilePage = () => {
                         <div className="flex justify-between items-start mb-4">
                           <div>
                             <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                              {product.product.p_name}
+                              {product?.product.p_name}
                             </h3>
-                            <p className="text-gray-600">{product.product.p_desc}</p>
+                            <p className="text-gray-600">{product?.product.p_desc}</p>
                           </div>
                           <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            product.status === 'active' 
+                            product?.status === 'active' 
                               ? 'bg-emerald-100 text-emerald-800'
                               : 'bg-gray-100 text-gray-800'
                           }`}>
-                            {product.status}
+                            {product?.status}
                           </span>
                         </div>
                         <div className="flex justify-between items-center pt-4 border-t">
                           <div className="flex items-center space-x-2 text-gray-500">
                             <Clock className="w-4 h-4" />
-                            <span>Ends: {new Date(product.endTime).toLocaleDateString()}</span>
+                            <span>Ends: {new Date(product?.endTime).toLocaleDateString()}</span>
                           </div>
                           <div className="text-right">
                             <p className="text-sm text-gray-500">Current Bid</p>
-                            <p className="text-xl font-bold text-gray-900">₹{product.highestBid.toLocaleString()}</p>
+                            <p className="text-xl font-bold text-gray-900">₹{product?.highestBid.toLocaleString()}</p>
                           </div>
                         </div>
                       </div>

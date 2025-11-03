@@ -72,7 +72,7 @@ const RedirectAuthenticatedUser=({children})=>{
 
 const RedirectAdmin=({children})=>{
 
-  const {isAuthenticated,user}=useAuthStore();
+  const {isAuthenticated,user,isLoading}=useAuthStore();
 
   if(isAuthenticated && user.role==="admin")
   return children

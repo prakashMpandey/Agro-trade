@@ -12,22 +12,11 @@ const AdminBottomCard=(props)=>{
 
     const {Admin_URL}=useAuthStore();
    
-    // const users = [
-    //     { id: 1, name: 'John Doe', role: 'Farmer', status: 'Active', joined: '2024-02-15' },
-    //     { id: 2, name: 'Jane Smith', role: 'Buyer', status: 'Active', joined: '2024-02-14' },
-    //     { id: 3, name: 'Mike Johnson', role: 'Farmer', status: 'Inactive', joined: '2024-02-13' }
-    //   ];
-    
-    //   // Demo Auctions Data
-    //   const auctions = [
-    //     { id: 1, title: 'Apple Auction', price: '₹100', status: 'Active', bids: 5 },
-    //     { id: 2, title: 'Banana Auction', price: '₹75', status: 'Inactive', bids: 3 },
-    //     { id: 3, title: 'Cherry Auction', price: '₹90', status: 'Active', bids: 7 }
-    //   ];
+   
     
     return(
         
-       <div className='grid grid-cols-2 gap-8'>
+       <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
           <div className="grid grid-cols-1  gap-8">
           {/* Users Table */}
           <div className="bg-white rounded-lg shadow-sm">
@@ -58,7 +47,7 @@ const AdminBottomCard=(props)=>{
             </div>
           </div>
 
-          {/* Recent Auctions */}
+        
           
         </div>
          <div className="bg-white rounded-lg shadow-sm">
