@@ -4,6 +4,8 @@ import { asyncHandler } from "../utilities/AsyncHandler.utilities.js";
 import { ApiResponse } from "../utilities/ApiResponse.utils.js";
 import ApiError from "../utilities/ApiError.utils.js"
 import cookie from "cookie"
+
+
 export const verifyToken= asyncHandler(async (req,res,next)=>{
 
     try{
@@ -22,18 +24,15 @@ export const verifyToken= asyncHandler(async (req,res,next)=>{
 
         if(!user)
         {
-            res.status(401).json(new ApiError(401,"access denied"));
+            return res.status(401).json(new ApiError(401,"access denied"));
         }
 
         req.user=user;
 
         next();
 
-    }
-
-    catch(error){
-
-        throw new ApiError(404,error?.message||"invalid access token");
+    } catch(error){
+        return res.status(401).json(new ApiError(401, error.message || "access denied"));
     }
 }
 );

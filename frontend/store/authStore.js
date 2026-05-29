@@ -13,7 +13,7 @@ export const useAuthStore = create((set) => ({
   isAuthenticated: false,
   error: null,
   isLoading: false,
-  isCheckingAuth: false,
+  isCheckingAuth: true,
   Auction_URL: `${import.meta.env.VITE_AUCTION_URL}`,
   Admin_URL: `${import.meta.env.VITE_ADMIN_URL}`,
   Info_URL: `${import.meta.env.VITE_INFO_URL}`,

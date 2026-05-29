@@ -79,7 +79,7 @@ const {isLoading,setLoadingState}=useAuthStore();
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen flex items-center justify-center bg-gradient-to-bl from-indigo-500 via-purple-500 to-pink-500"
+      className="min-h-screen flex items-center justify-center "
     >
       <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-xl">
         <h2 className="text-4xl font-extrabold text-gray-800 mb-4 text-center">

@@ -423,7 +423,7 @@ const isLoggedIn = async (req, res) => {
   console.log("hello bhai");
 
   if (!userId) {
-    return;
+    return res.status(401).json(new ApiError(401, "Unauthorized"));
   }
   try {
     const user = await User.findById(userId)
@@ -440,6 +440,7 @@ const isLoggedIn = async (req, res) => {
       .json(new ApiResponse(200, user, "data fetched successfully"));
   } catch (error) {
     console.log(error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
   }
 };
 
